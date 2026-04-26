@@ -3,6 +3,8 @@ import { ArticleRenderer } from "@/components/lesson/ArticleRenderer";
 import { QuizEngine } from "@/components/lesson/QuizEngine";
 import { VideoPlayer } from "@/components/lesson/VideoPlayer";
 import { MarkCompleteButton } from "@/components/lesson/MarkCompleteButton";
+import { LessonComments } from "@/components/course/LessonComments";
+import { ReviewForm } from "@/components/course/ReviewForm";
 import { Link } from "@/i18n/navigation";
 import { getLearnData } from "@/actions/learn";
 import { auth } from "@/lib/auth";
@@ -128,7 +130,8 @@ export default async function LearnLessonPage({ params }: LearnLessonPageProps) 
         </div>
 
         {isCourseFinished && (
-          <div className="pt-4 border-t">
+          <div className="pt-4 border-t space-y-4">
+            <ReviewForm courseId={course.id} />
             <Link
               href={`/v/${certificateCode || course.id}`}
               className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-yellow-500 to-amber-600 px-4 py-3 text-sm font-black text-white shadow-lg transition-all hover:scale-[1.02] active:scale-95"
@@ -193,6 +196,14 @@ export default async function LearnLessonPage({ params }: LearnLessonPageProps) 
              isCompleted={isCompleted} 
            />
         </footer>
+
+        {/* Discussion Section */}
+        <div className="mt-12">
+          <LessonComments 
+            lessonId={currentLesson.id} 
+            currentUserId={session.user.id} 
+          />
+        </div>
       </article>
     </section>
   );

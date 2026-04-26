@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { getCourseBySlug } from "@/actions/course";
 import { PaymentModal } from "@/components/payment/PaymentModal";
 import { Curriculum } from "@/components/course/Curriculum";
+import { CourseReviews } from "@/components/course/CourseReviews";
 import { FreeEnrollButton } from "@/components/payment/FreeEnrollButton";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
@@ -104,6 +105,10 @@ export default async function CourseDetailPage({ params }: CourseDetailProps) {
             isEnrolled={isEnrolled} 
             courseSlug={course.slug} 
           />
+
+          <div className="pt-12">
+            <CourseReviews courseId={course.id} />
+          </div>
         </div>
 
         <aside id="enroll-section" className="sticky top-24 h-fit space-y-6">

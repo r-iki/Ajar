@@ -186,7 +186,7 @@ export const certificates = pgTable("certificates", {
   id: text("id").primaryKey(),
   userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
   courseId: text("course_id").notNull().references(() => courses.id, { onDelete: "cascade" }),
-  code: text("code").notNull().unique(),
+  code: text("code").notNull(),
   issuedAt: timestamp("issued_at", { withTimezone: true }).notNull().defaultNow(),
 });
 
@@ -260,6 +260,7 @@ export const coursesRelations = relations(courses, ({ many, one }) => ({
   modules: many(modules),
   author: one(users, { fields: [courses.authorId], references: [users.id] }),
   category: one(categories, { fields: [courses.categoryId], references: [categories.id] }),
+  reviews: many(reviews),
 }));
 
 export const modulesRelations = relations(modules, ({ many, one }) => ({
@@ -270,6 +271,7 @@ export const modulesRelations = relations(modules, ({ many, one }) => ({
 export const lessonsRelations = relations(lessons, ({ one, many }) => ({
   module: one(modules, { fields: [lessons.moduleId], references: [modules.id] }),
   quiz: one(quizzes, { fields: [lessons.id], references: [quizzes.lessonId] }),
+  comments: many(comments),
 }));
 
 export const quizzesRelations = relations(quizzes, ({ one, many }) => ({
@@ -290,6 +292,8 @@ export const usersRelations = relations(users, ({ many }) => ({
   enrollments: many(enrollments),
   lessonProgress: many(lessonProgress),
   xpTransactions: many(xpTransactions),
+  comments: many(comments),
+  reviews: many(reviews),
 }));
 
 export const enrollmentsRelations = relations(enrollments, ({ one }) => ({
@@ -304,4 +308,14 @@ export const lessonProgressRelations = relations(lessonProgress, ({ one }) => ({
 
 export const categoriesRelations = relations(categories, ({ many }) => ({
   courses: many(courses),
+}));
+
+export const commentsRelations = relations(comments, ({ one }) => ({
+  user: one(users, { fields: [comments.userId], references: [users.id] }),
+  lesson: one(lessons, { fields: [comments.lessonId], references: [lessons.id] }),
+}));
+
+export const reviewsRelations = relations(reviews, ({ one }) => ({
+  user: one(users, { fields: [reviews.userId], references: [users.id] }),
+  course: one(courses, { fields: [reviews.courseId], references: [courses.id] }),
 }));

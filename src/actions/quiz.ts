@@ -12,6 +12,8 @@ type SubmitQuizInput = {
   selectedAnswers: string[]; // List of selected choice IDs
 };
 
+import { awardXP } from "./xp";
+
 export async function submitQuizAttempt(input: SubmitQuizInput) {
   const maxScore = input.correctAnswers.length;
   const score = input.selectedAnswers.reduce((total, answer, index) => {
@@ -33,6 +35,9 @@ export async function submitQuizAttempt(input: SubmitQuizInput) {
   // If score >= 80%, mark lesson as complete
   let nextLessonId = null;
   if (percentage >= 80) {
+    // Award Quiz XP
+    await awardXP(input.userId, 50, `Passed quiz: ${input.quizId}`);
+    
     const result = await markLessonComplete(input.lessonId);
     nextLessonId = result.nextLessonId;
   }
