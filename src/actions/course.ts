@@ -2,10 +2,29 @@
 
 import { db } from "@/lib/db";
 import { courses, categories } from "@/lib/db/schema";
-import { eq } from "drizzle-orm";
+import { eq, ilike, and, or, desc } from "drizzle-orm";
 
-export async function getCourses() {
-  return await db.select().from(courses);
+export async function getCourses(options?: { categoryId?: string; level?: string; search?: string }) {
+  return await db.query.courses.findMany({
+    where: (course, { eq, and, ilike, or }) => {
+      const filters = [];
+      if (options?.categoryId) filters.push(eq(course.categoryId, options.categoryId));
+      if (options?.level) filters.push(eq(course.level, options.level));
+      if (options?.search) {
+        filters.push(
+          or(
+            ilike(course.titleId, `%${options.search}%`),
+            ilike(course.titleEn, `%${options.search}%`)
+          )
+        );
+      }
+      if (filters.length === 0) return undefined;
+      return and(...filters);
+    },
+    with: {
+      category: true,
+    },
+  });
 }
 
 export async function getCourseBySlug(slug: string) {

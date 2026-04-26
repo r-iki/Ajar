@@ -86,7 +86,7 @@ export function Navbar() {
                   <div className="flex items-center gap-3">
                     <div className="relative">
                       <Link 
-                        href="/account"
+                        href="/account/settings"
                         className="group flex size-9 items-center justify-center overflow-hidden rounded-full border-2 border-primary/20 transition-all hover:border-primary shadow-sm"
                       >
                         {session.user.image ? (
@@ -153,16 +153,26 @@ export function Navbar() {
               ))}
               
               {session && (
-                <button 
-                  onClick={() => {
-                    handleSignOut();
-                    setIsMenuOpen(false);
-                  }}
-                  className="flex items-center gap-3 p-4 rounded-2xl border bg-destructive/10 text-destructive font-bold text-left hover:bg-destructive/20 transition-all"
-                >
-                  <LogOut className="size-5" />
-                  Sign Out
-                </button>
+                <>
+                  <Link 
+                    href="/account/settings"
+                    onClick={() => setIsMenuOpen(false)}
+                    className={`flex items-center gap-3 p-4 rounded-2xl border transition-all ${pathname.includes('/account/settings') ? "bg-primary text-primary-foreground border-primary" : "bg-muted/30 hover:bg-muted"}`}
+                  >
+                    <Settings className="size-5" />
+                    <span className="font-bold">Account Settings</span>
+                  </Link>
+                  <button 
+                    onClick={() => {
+                      handleSignOut();
+                      setIsMenuOpen(false);
+                    }}
+                    className="flex items-center gap-3 p-4 rounded-2xl border bg-destructive/10 text-destructive font-bold text-left hover:bg-destructive/20 transition-all"
+                  >
+                    <LogOut className="size-5" />
+                    Sign Out
+                  </button>
+                </>
               )}
             </div>
           </div>

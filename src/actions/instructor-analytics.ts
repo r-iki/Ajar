@@ -1,8 +1,8 @@
 "use server";
 
 import { db } from "@/lib/db";
-import { courses, enrollments, lessons, lessonProgress } from "@/lib/db/schema";
-import { eq, sql, count, and } from "drizzle-orm";
+import { courses, enrollments, lessons, lessonProgress, modules, users } from "@/lib/db/schema";
+import { eq, sql, count, and, desc } from "drizzle-orm";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 
@@ -60,7 +60,7 @@ export async function getCoursePerformance() {
   // Fetch all courses for this instructor with enrollment counts
   const data = await db.select({
     id: courses.id,
-    title: courses.title,
+    title: courses.titleId,
     slug: courses.slug,
     enrollmentCount: count(enrollments.id),
   })
@@ -73,4 +73,52 @@ export async function getCoursePerformance() {
   return data;
 }
 
-import { desc } from "drizzle-orm";
+export async function getCourseStudents(courseId: string) {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session?.user) throw new Error("Unauthorized");
+
+  // Verify ownership
+  const course = await db.query.courses.findFirst({
+    where: and(eq(courses.id, courseId), eq(courses.authorId, session.user.id)),
+  });
+
+  if (!course) throw new Error("Course not found or unauthorized");
+
+  // Get total lessons count for this course
+  const totalLessonsCount = await db.select({ count: count() })
+    .from(lessons)
+    .innerJoin(modules, eq(lessons.moduleId, modules.id))
+    .where(eq(modules.courseId, courseId));
+
+  const totalLessons = totalLessonsCount[0].count || 0;
+
+  // Fetch students with their progress
+  const students = await db.select({
+    id: users.id,
+    name: users.name,
+    email: users.email,
+    image: users.image,
+    enrolledAt: enrollments.enrolledAt,
+    completedAt: enrollments.completedAt,
+    completedLessons: sql<number>`count(${lessonProgress.id})`,
+  })
+  .from(enrollments)
+  .innerJoin(users, eq(enrollments.userId, users.id))
+  .leftJoin(modules, eq(modules.courseId, courseId))
+  .leftJoin(lessons, eq(lessons.moduleId, modules.id))
+  .leftJoin(lessonProgress, and(
+    eq(lessonProgress.userId, users.id),
+    eq(lessonProgress.lessonId, lessons.id)
+  ))
+  .where(eq(enrollments.courseId, courseId))
+  .groupBy(users.id, enrollments.enrolledAt, enrollments.completedAt)
+  .orderBy(desc(enrollments.enrolledAt));
+
+  return students.map(s => ({
+    ...s,
+    progress: totalLessons > 0 ? Math.round((s.completedLessons / totalLessons) * 100) : 0
+  }));
+}
