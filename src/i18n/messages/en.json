@@ -1,0 +1,18 @@
+{
+  "common": {
+    "brand": "Ajar",
+    "subtitle": "Bilingual coding learning platform",
+    "language": "Language"
+  },
+  "home": {
+    "headline": "Learn Digital Skills With A Clear Roadmap",
+    "description": "Ajar helps you move from fundamentals to job-ready through structured courses.",
+    "ctaExplore": "Explore Courses",
+    "ctaStart": "Start Learning"
+  },
+  "student": {
+    "dashboard": "Student Dashboard",
+    "myCourses": "My Courses",
+    "certificates": "Certificates"
+  }
+}

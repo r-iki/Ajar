@@ -1,0 +1,18 @@
+{
+  "common": {
+    "brand": "Ajar",
+    "subtitle": "Platform belajar coding bilingual",
+    "language": "Bahasa"
+  },
+  "home": {
+    "headline": "Belajar Skill Digital Dengan Jalur Yang Jelas",
+    "description": "Ajar membantu kamu belajar dari level dasar sampai siap kerja melalui kursus terstruktur.",
+    "ctaExplore": "Lihat Kursus",
+    "ctaStart": "Mulai Belajar"
+  },
+  "student": {
+    "dashboard": "Dashboard Siswa",
+    "myCourses": "Kursus Saya",
+    "certificates": "Sertifikat"
+  }
+}
