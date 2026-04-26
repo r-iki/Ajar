@@ -10,6 +10,7 @@ export async function GET() {
     courseTitle: "Belajar Fundamental JavaScript",
     certificateCode: "AJR-DEMO-001",
     issuedAt: new Date().toISOString(),
+    certId: "demo",
   });
 
   const instance = pdf(document as never);

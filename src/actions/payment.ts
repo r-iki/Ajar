@@ -7,6 +7,7 @@ import { createStripeCheckout } from "@/lib/payment/stripe";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { getLocale } from "next-intl/server";
 
 type StartCheckoutInput = {
   courseId: string;
@@ -94,6 +95,7 @@ export async function enrollFreeCourse(courseId: string) {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
+  const locale = await getLocale();
 
   if (!session?.user) {
     throw new Error("Anda harus login untuk mendaftar kursus");
@@ -132,5 +134,5 @@ export async function enrollFreeCourse(courseId: string) {
       set: { paymentStatus: "paid" },
     });
 
-  redirect(`/learn/${course.slug}/${firstLesson.id}`);
+  redirect(`/${locale}/learn/${course.slug}/${firstLesson.id}` as any);
 }

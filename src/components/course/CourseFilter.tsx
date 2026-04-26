@@ -24,7 +24,7 @@ export function CourseFilter({ categories }: { categories: any[] }) {
     }
     params.delete("page");
     startTransition(() => {
-      router.push(`${pathname}?${params.toString()}`);
+      router.push(`${pathname}?${params.toString()}` as any);
     });
   }, 300);
 
@@ -37,13 +37,13 @@ export function CourseFilter({ categories }: { categories: any[] }) {
     }
     params.delete("page");
     startTransition(() => {
-      router.push(`${pathname}?${params.toString()}`);
+      router.push(`${pathname}?${params.toString()}` as any);
     });
   };
 
   const clearFilters = () => {
     setSearch("");
-    router.push(pathname);
+    router.push(pathname as any);
   };
 
   return (

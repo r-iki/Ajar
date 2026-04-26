@@ -55,13 +55,15 @@ export async function GET(
   const expiryDate = new Date(cert.issuedAt);
   expiryDate.setFullYear(expiryDate.getFullYear() + 3);
 
-  // Read images from filesystem
-  let logoData = null;
-  let ttdData = null;
+  // Read images from filesystem as base64 data URLs
+  let logoData: string | undefined = undefined;
+  let ttdData: string | undefined = undefined;
   try {
     const publicDir = path.join(process.cwd(), "public");
-    logoData = fs.readFileSync(path.join(publicDir, "favicon.jpg"));
-    ttdData = fs.readFileSync(path.join(publicDir, "TTD.png"));
+    const logoBuffer = fs.readFileSync(path.join(publicDir, "favicon.jpg"));
+    logoData = `data:image/jpeg;base64,${logoBuffer.toString("base64")}`;
+    const ttdBuffer = fs.readFileSync(path.join(publicDir, "TTD.png"));
+    ttdData = `data:image/png;base64,${ttdBuffer.toString("base64")}`;
   } catch (e) {
     console.error("Error reading images for certificate:", e);
   }

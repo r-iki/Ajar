@@ -11,12 +11,15 @@ import { enrollments } from "@/lib/db/schema";
 import { eq, and } from "drizzle-orm";
 import { PlayCircle, CheckCircle } from "lucide-react";
 import { Link } from "@/i18n/navigation";
-
 import { Metadata } from "next";
+
+import Image from "next/image";
 
 type CourseDetailProps = {
   params: Promise<{ slug: string; locale: string }>;
 };
+
+const ABSTRACT_PLACEHOLDER = "https://images.unsplash.com/photo-1614850523296-d8c1af93d400?q=80&w=2070&auto=format&fit=crop";
 
 export async function generateMetadata({ params }: CourseDetailProps): Promise<Metadata> {
   const { slug, locale } = await params;
@@ -26,10 +29,25 @@ export async function generateMetadata({ params }: CourseDetailProps): Promise<M
 
   const title = locale === "id" ? course.titleId : course.titleEn;
   const description = course.metaDescription || (locale === "id" ? course.descId : course.descEn);
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://ajar.com';
+  const imageUrl = course.thumbnail || ABSTRACT_PLACEHOLDER;
 
   return {
     title: `${title} | Ajar`,
     description,
+    openGraph: {
+      title,
+      description,
+      url: `${baseUrl}/${locale}/courses/${slug}`,
+      images: [{ url: imageUrl, width: 1200, height: 630, alt: title }],
+      type: 'article',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [imageUrl],
+    },
   };
 }
 
@@ -78,10 +96,13 @@ export default async function CourseDetailPage({ params }: CourseDetailProps) {
       <div className="grid gap-8 lg:grid-cols-[1fr_350px]">
         <div className="space-y-12">
           <div className="aspect-video overflow-hidden rounded-2xl border bg-muted/40 shadow-2xl relative group">
-            <img 
-              src={course.thumbnail || "/images/course-placeholder.png"} 
+            <Image 
+              src={course.thumbnail || ABSTRACT_PLACEHOLDER} 
               alt={course.titleId} 
-              className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" 
+              fill
+              priority
+              className="object-cover transition-transform duration-700 group-hover:scale-105" 
+              sizes="(max-width: 1024px) 100vw, 800px"
             />
             {!course.thumbnail && (
               <div className="absolute inset-0 bg-black/20 backdrop-blur-[2px] flex items-center justify-center">

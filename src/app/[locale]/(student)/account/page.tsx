@@ -36,7 +36,6 @@ export default function AccountPage() {
       await authClient.updateUser({
         name,
         image,
-        email: email !== session.user.email ? email : undefined,
       });
       toast.success("Profil berhasil diperbarui!");
       router.refresh();
@@ -96,7 +95,7 @@ export default function AccountPage() {
                )}
             </div>
             <p className="inline-block mt-2 px-3 py-1 bg-primary/10 text-primary text-[10px] font-black uppercase tracking-widest rounded-full">
-               {session.user.role}
+               {(session.user as any).role}
             </p>
           </div>
         </aside>

@@ -65,6 +65,7 @@ export default async function StudentDashboardPage() {
       progressPercent,
       totalLessons,
       completedLessons: completedInThisCourse,
+      firstLessonId: allLessons[0]?.id,
     };
   });
 
@@ -209,7 +210,7 @@ export default async function StudentDashboardPage() {
                        )}
                     </div>
                     <Link 
-                      href={course.progressPercent === 100 ? `/${locale}/courses/${course.slug}` : `/${locale}/learn/${course.slug}`}
+                      href={(course.progressPercent === 100 ? `/${locale}/courses/${course.slug}` : `/${locale}/learn/${course.slug}/${course.firstLessonId}`) as any}
                       className="flex items-center justify-center gap-2 rounded-xl bg-slate-900 dark:bg-slate-100 px-4 py-3 text-xs font-black text-white dark:text-slate-900 transition-all hover:opacity-90 active:scale-95"
                     >
                       {course.progressPercent === 100 ? "Review Kursus" : "Lanjutkan Belajar"}

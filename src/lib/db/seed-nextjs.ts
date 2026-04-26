@@ -97,7 +97,7 @@ async function main() {
       titleEn: "The Future of React: React 19",
       titleId: "Masa Depan React: React 19",
       type: "article",
-      content: `# Mengenal React 19 dan Next.js 15
+      contentId: `# Mengenal React 19 dan Next.js 15
 
 React 19 membawa perubahan fundamental pada cara kita mengelola state dan efek samping. Beberapa fitur utama meliputi:
 
@@ -143,7 +143,7 @@ Mari kita mulai perjalanan ini dengan memahami dasar-dasarnya!`,
       titleEn: "How Server Actions Work",
       titleId: "Cara Kerja Server Actions",
       type: "article",
-      content: `# Memahami Server Actions
+      contentId: `# Memahami Server Actions
 
 Server Actions adalah fungsi asinkron yang dieksekusi di server. Mereka dapat dipanggil langsung dari Client Components atau Server Components.
 

@@ -42,7 +42,7 @@ export default async function InstructorCoursesPage() {
           <p className="text-muted-foreground font-medium">Kelola kurikulum dan pantau performa pengajaran Anda.</p>
         </div>
         <Link 
-          href={`/${locale}/studio/courses/new`}
+          href={`/${locale}/studio/courses/new` as any}
           className="inline-flex items-center justify-center gap-2 rounded-2xl bg-slate-900 dark:bg-slate-100 px-6 py-4 text-sm font-black text-white dark:text-slate-900 transition-all hover:scale-[1.02] active:scale-95 shadow-xl shadow-primary/10"
         >
           <Plus className="size-5" />
@@ -95,7 +95,7 @@ export default async function InstructorCoursesPage() {
                            </div>
                         </div>
                         <Link 
-                           href={`/${locale}/studio/courses/${course.id}/edit`}
+                           href={`/${locale}/studio/courses/${course.id}/edit` as any}
                            className="flex size-10 items-center justify-center rounded-full bg-muted transition-all hover:bg-primary hover:text-white"
                         >
                            <ArrowUpRight className="size-4" />
@@ -180,14 +180,14 @@ export default async function InstructorCoursesPage() {
                       </div>
                       <div className="flex items-center gap-2">
                         <Link 
-                          href={`/${locale}/studio/courses/${course.id}/students`}
+                          href={`/${locale}/studio/courses/${course.id}/students` as any}
                           className="flex items-center gap-2 rounded-2xl bg-primary/10 px-4 py-2.5 text-xs font-black text-primary hover:bg-primary hover:text-white transition-all shadow-sm"
                         >
                           <Users className="size-3.5" />
                           Siswa
                         </Link>
                         <Link 
-                          href={`/${locale}/studio/courses/${course.id}/edit`}
+                          href={`/${locale}/studio/courses/${course.id}/edit` as any}
                           className="rounded-2xl bg-muted px-5 py-2.5 text-xs font-black hover:bg-muted/80 transition-all shadow-sm border"
                         >
                           Kelola
@@ -214,7 +214,7 @@ export default async function InstructorCoursesPage() {
                 </p>
              </div>
              <Link 
-               href={`/${locale}/studio/courses/new`}
+               href={`/${locale}/studio/courses/new` as any}
                className="rounded-2xl bg-primary px-10 py-5 text-sm font-black text-primary-foreground shadow-2xl shadow-primary/30 hover:scale-[1.05] active:scale-95 transition-all"
              >
                Buat Kursus Pertama

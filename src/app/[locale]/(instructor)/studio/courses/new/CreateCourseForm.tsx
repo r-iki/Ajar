@@ -44,7 +44,7 @@ export function CreateCourseForm({ categories: initialCategories, locale }: { ca
       const result = await createCourse(formData);
       if (result.success) {
         toast.success("Kursus berhasil dibuat!");
-        router.push(`/studio/courses/${result.courseId}/edit`);
+        router.push(`/studio/courses/${result.courseId}/edit` as any);
       } else {
         toast.error(result.error || "Gagal membuat kursus.");
       }

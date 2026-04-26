@@ -20,6 +20,8 @@ export async function generateMetadata(): Promise<Metadata> {
 
 const ABSTRACT_PLACEHOLDER = "https://images.unsplash.com/photo-1614850523296-d8c1af93d400?q=80&w=2070&auto=format&fit=crop";
 
+import Image from "next/image";
+
 export default async function CoursesPage({
   searchParams,
 }: {
@@ -58,11 +60,13 @@ export default async function CoursesPage({
           allCourses.map((course) => (
             <Link key={course.id} href={`/courses/${course.slug}`} className="group">
               <article className="flex h-full flex-col overflow-hidden rounded-[2.5rem] border bg-card transition-all duration-500 hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-2">
-                <div className="relative aspect-video w-full overflow-hidden">
-                  <img 
+                <div className="relative aspect-video w-full overflow-hidden bg-muted/20">
+                  <Image 
                     src={course.thumbnail || ABSTRACT_PLACEHOLDER} 
                     alt={locale === 'id' ? course.titleId : course.titleEn} 
-                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" 
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-110" 
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
                   <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
                   <div className="absolute top-4 right-4">

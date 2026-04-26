@@ -38,7 +38,7 @@ export function Curriculum({
 
   const handleLessonClick = (lessonId: string) => {
     if (isEnrolled) {
-      router.push(`/learn/${courseSlug}/${lessonId}`);
+      router.push(`/learn/${courseSlug}/${lessonId}` as any);
     } else {
       const enrollSection = document.getElementById("enroll-section");
       if (enrollSection) {

@@ -9,7 +9,7 @@ export async function getCourses(options?: { categoryId?: string; level?: string
     where: (course, { eq, and, ilike, or }) => {
       const filters = [];
       if (options?.categoryId) filters.push(eq(course.categoryId, options.categoryId));
-      if (options?.level) filters.push(eq(course.level, options.level));
+      if (options?.level) filters.push(eq(course.level, options.level as any));
       if (options?.search) {
         filters.push(
           or(

@@ -124,6 +124,15 @@
   .glass-dark {
     @apply bg-background/40 backdrop-blur-xl border border-white/10;
   }
+  .hero-grid-bg {
+    @apply absolute inset-0 -z-10 h-full w-full bg-white dark:bg-slate-950;
+    background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+    background-size: 16px 16px;
+    mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 70%, transparent 100%);
+  }
+  .dark .hero-grid-bg {
+    background-image: radial-gradient(#1e293b 1px, transparent 1px);
+  }
 }
 
 @layer base {

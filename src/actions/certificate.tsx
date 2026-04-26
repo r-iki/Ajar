@@ -21,6 +21,7 @@ export async function generateCertificate(input: GenerateCertificateInput) {
       courseTitle={input.courseTitle}
       certificateCode={certificateCode}
       issuedAt={issuedAt}
+      certId={certificateCode}
     />
   );
 

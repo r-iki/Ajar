@@ -229,8 +229,8 @@ type CertificateDocumentProps = {
     }>;
   }>;
   expiryDate?: string | null;
-  logoData?: string | Uint8Array | Buffer;
-  ttdData?: string | Uint8Array | Buffer;
+  logoData?: string;
+  ttdData?: string;
 };
 
 export function CertificateDocument({
@@ -282,7 +282,7 @@ export function CertificateDocument({
           <View style={styles.cornerRight} />
 
           <View style={styles.header}>
-            {logoPath && <Image src={logoPath} style={styles.logo} alt="Ajar Logo" />}
+            {logoPath && <Image src={logoPath} style={styles.logo} />}
             <Text style={styles.subHeading}>Certificate of Excellence</Text>
             <Text style={{ fontSize: 8, color: "#94a3b8", marginTop: 4, letterSpacing: 1, fontFamily: "Courier" }}>ID: {certificateCode}</Text>
             <View style={styles.line} />
@@ -298,7 +298,7 @@ export function CertificateDocument({
           <View style={styles.footer}>
             <View style={styles.footerSide}>
               <Text style={{ fontSize: 8, color: "#94a3b8", marginBottom: 2 }}>{formattedDate}</Text>
-              {ttdPath && <Image src={ttdPath} style={styles.signature} alt="Signature" />}
+              {ttdPath && <Image src={ttdPath} style={styles.signature} />}
               <Text style={{ fontSize: 12, fontWeight: "bold", color: "#0f172a" }}>Riki Muhammad</Text>
               <Text style={styles.footerLabel}>CEO & Founder</Text>
               <Text style={{ fontSize: 7, color: "#94a3b8", marginTop: 2 }}>ajar.rikode.com</Text>
@@ -308,7 +308,7 @@ export function CertificateDocument({
             </View>
 
             <View style={styles.rightSide}>
-              {qrCodeUrl && <Image src={qrCodeUrl} style={styles.qrImage} alt="Verification QR" />}
+              {qrCodeUrl && <Image src={qrCodeUrl} style={styles.qrImage} />}
               <View style={{ marginTop: 2, alignItems: "center" }}>
                 <Text style={{ fontSize: 9, fontWeight: "bold", color: "#0f172a" }}>AJAR Training Partner</Text>
               </View>
@@ -327,7 +327,7 @@ export function CertificateDocument({
             <Text style={{ fontSize: 10, color: "#64748b" }}>{courseTitle}</Text>
           </View>
           <View style={{ textAlign: "right" }}>
-            {logoPath && <Image src={logoPath} style={styles.curriculumLogo} alt="Logo" />}
+            {logoPath && <Image src={logoPath} style={styles.curriculumLogo} />}
             <Text style={{ fontSize: 8, color: "#94a3b8", marginTop: 4 }}>Total: {formatMinutes(totalTime)}</Text>
           </View>
         </View>

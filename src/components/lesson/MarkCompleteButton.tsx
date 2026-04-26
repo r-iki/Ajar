@@ -28,7 +28,7 @@ export function MarkCompleteButton({ lessonId, courseSlug, isCompleted }: MarkCo
         if (result.success) {
           toast.success("Materi selesai!");
           if (result.nextLessonId) {
-            router.push(`/learn/${courseSlug}/${result.nextLessonId}`);
+            router.push(`/learn/${courseSlug}/${result.nextLessonId}` as any);
           } else {
             router.refresh();
           }

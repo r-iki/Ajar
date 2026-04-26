@@ -30,11 +30,12 @@ export function Navbar() {
   ];
 
   if (session) {
+    const user = session.user as any;
     navLinks.push({ href: "/dashboard", label: "Dashboard" });
-    if (session.user.role === "instructor" || session.user.role === "admin") {
+    if (user.role === "instructor" || user.role === "admin") {
       navLinks.push({ href: "/studio/courses", label: "Studio" });
     }
-    if (session.user.role === "admin") {
+    if (user.role === "admin") {
       navLinks.push({ href: "/overview", label: "Admin" });
     }
   }

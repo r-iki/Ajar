@@ -35,9 +35,10 @@ function SignInForm() {
       toast.success("Selamat datang kembali!");
       
       let defaultRoute = "/dashboard";
-      if (data.user.role === "admin") {
+      const user = data.user as any;
+      if (user.role === "admin") {
         defaultRoute = "/overview";
-      } else if (data.user.role === "instructor") {
+      } else if (user.role === "instructor") {
         defaultRoute = "/studio/courses";
       }
 

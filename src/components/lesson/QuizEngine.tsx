@@ -50,7 +50,7 @@ export function QuizEngine({ userId, quizId, lessonId, questions }: QuizEnginePr
         } else {
           toast.error(`Belum Lulus. Skor Anda: ${res.percentage}%`);
         }
-      } catch (error) {
+      } catch {
         toast.error("Gagal mengirim jawaban.");
       }
     });
@@ -58,7 +58,8 @@ export function QuizEngine({ userId, quizId, lessonId, questions }: QuizEnginePr
 
   const handleNext = () => {
     if (result?.nextLessonId) {
-      router.push(`/learn/${window.location.pathname.split("/")[3]}/${result.nextLessonId}`);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      router.push(`/learn/${window.location.pathname.split("/")[3]}/${result.nextLessonId}` as any);
     } else {
       router.refresh();
     }

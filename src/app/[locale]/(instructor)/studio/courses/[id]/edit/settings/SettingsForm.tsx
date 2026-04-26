@@ -42,7 +42,7 @@ export function SettingsForm({ course, locale }: { course: any, locale: string }
       const result = await deleteCourse(course.id);
       if (result.success) {
         toast.success("Kursus berhasil dihapus.");
-        router.push("/studio/courses");
+        router.push("/studio/courses" as any);
       } else {
         toast.error(result.error || "Gagal menghapus kursus.");
       }

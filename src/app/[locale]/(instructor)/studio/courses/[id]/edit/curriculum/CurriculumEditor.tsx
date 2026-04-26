@@ -221,7 +221,7 @@ export function CurriculumEditor({ courseId, initialModules, locale }: { courseI
                 </div>
 
                 {/* Add Lesson Actions */}
-                {addingLesson?.moduleId === module.id ? (
+                {addingLesson && addingLesson.moduleId === module.id ? (
                   <form onSubmit={handleSubmitLesson} className="ml-8 pl-6 mt-4 border-l-2 border-primary space-y-3">
                      <p className="text-xs font-bold uppercase text-primary flex items-center gap-2">
                         {addingLesson.type === 'video' && <Video className="size-3" />}
