@@ -65,7 +65,7 @@ export function QuizEngine({ userId, quizId, lessonId, questions }: QuizEnginePr
   };
 
   return (
-    <div className="space-y-8 rounded-3xl border glass p-8 shadow-2xl">
+    <div className="space-y-8 rounded-2xl border glass p-8 shadow-2xl">
       <div className="space-y-2 border-b pb-4">
         <h3 className="text-2xl font-black">Quiz Pengetahuan</h3>
         <p className="text-sm text-muted-foreground font-medium">Selesaikan quiz ini dengan skor minimal 80% untuk melanjutkan.</p>

@@ -35,9 +35,24 @@ export function Navbar() {
               Courses
             </Link>
             {session && (
-              <Link href="/dashboard" className="text-muted-foreground transition-colors hover:text-primary">
-                Dashboard
-              </Link>
+              <>
+                <Link 
+                  href="/dashboard" 
+                  className={`transition-colors hover:text-primary ${pathname.includes("/dashboard") ? "text-primary font-bold" : "text-muted-foreground"}`}
+                >
+                  Dashboard
+                </Link>
+                {(session.user.role === "instructor" || session.user.role === "admin") && (
+                  <Link href="/studio/courses" className="text-muted-foreground transition-colors hover:text-primary">
+                    Studio
+                  </Link>
+                )}
+                {session.user.role === "admin" && (
+                  <Link href="/overview" className="text-muted-foreground transition-colors hover:text-primary">
+                    Admin
+                  </Link>
+                )}
+              </>
             )}
           </div>
 

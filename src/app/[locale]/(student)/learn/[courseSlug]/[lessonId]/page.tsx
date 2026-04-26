@@ -8,14 +8,33 @@ import { getLearnData } from "@/actions/learn";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
+import { getLocale } from "next-intl/server";
 import { CheckCircle2, Circle, Trophy } from "lucide-react";
 
+import { Metadata } from "next";
+
 type LearnLessonPageProps = {
-  params: Promise<{ courseSlug: string; lessonId: string }>;
+  params: Promise<{ courseSlug: string; lessonId: string; locale: string }>;
 };
+
+export async function generateMetadata({ params }: LearnLessonPageProps): Promise<Metadata> {
+  const { courseSlug, lessonId, locale } = await params;
+  const data = await getLearnData(courseSlug, lessonId);
+
+  if (!data || !data.currentLesson) return { title: "Lesson Not Found" };
+
+  const lessonTitle = locale === "id" ? data.currentLesson.titleId : data.currentLesson.titleEn;
+  const courseTitle = locale === "id" ? data.course.titleId : data.course.titleEn;
+
+  return {
+    title: `${lessonTitle} | ${courseTitle} | Ajar`,
+    robots: { index: false, follow: false }, // Penting: Jangan indeks halaman belajar
+  };
+}
 
 export default async function LearnLessonPage({ params }: LearnLessonPageProps) {
   const { courseSlug, lessonId } = await params;
+  const locale = await getLocale();
   
   const session = await auth.api.getSession({
     headers: await headers(),
@@ -37,12 +56,19 @@ export default async function LearnLessonPage({ params }: LearnLessonPageProps) 
   const completedCount = allLessons.filter(l => completedLessonIds.has(l.id)).length;
   const progress = Math.round((completedCount / allLessons.length) * 100);
   const isCourseFinished = progress === 100;
+  
+  // Determine Article Content with fallback
+  const contentPrimary = locale === 'id' ? currentLesson.contentId : currentLesson.contentEn;
+  const contentSecondary = locale === 'id' ? currentLesson.contentEn : currentLesson.contentId;
+  const displayContent = contentPrimary || contentSecondary || "";
 
   return (
     <section className="grid gap-6 lg:grid-cols-[340px_1fr]">
       <aside className="space-y-6 rounded-2xl border glass p-6 shadow-xl h-fit sticky top-24">
         <div className="space-y-3">
-          <h2 className="font-black text-xl leading-tight tracking-tight">{course.titleId}</h2>
+          <h2 className="font-black text-xl leading-tight tracking-tight">
+            {locale === 'id' ? course.titleId : course.titleEn}
+          </h2>
           <div className="space-y-1">
             <div className="flex justify-between text-xs font-bold uppercase tracking-widest text-muted-foreground">
               <span>Progress</span>
@@ -62,7 +88,7 @@ export default async function LearnLessonPage({ params }: LearnLessonPageProps) 
               <div key={mod.id} className="space-y-3">
                 <div className="flex items-center justify-between px-2">
                   <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground/60">
-                    {mod.titleId}
+                    {locale === 'id' ? mod.titleId : mod.titleEn}
                   </h3>
                   {isModuleDone && <CheckCircle2 className="size-3 text-blue-500" />}
                 </div>
@@ -90,7 +116,7 @@ export default async function LearnLessonPage({ params }: LearnLessonPageProps) 
                           )}
                         </div>
                         <span className="flex-1 font-semibold truncate">
-                          {lesson.titleId}
+                          {locale === 'id' ? lesson.titleId : lesson.titleEn}
                         </span>
                       </Link>
                     );
@@ -114,7 +140,7 @@ export default async function LearnLessonPage({ params }: LearnLessonPageProps) 
         )}
       </aside>
 
-      <article className="space-y-8 rounded-[2rem] border glass p-8 shadow-2xl min-h-[700px] flex flex-col">
+      <article className="space-y-8 rounded-2xl border glass p-8 shadow-2xl min-h-[700px] flex flex-col">
         <header className="space-y-4 border-b pb-6">
           <div className="flex items-center gap-3 text-[11px] font-black uppercase tracking-widest text-primary/70">
             <span className="rounded-full bg-primary/10 px-3 py-1">{currentLesson.type}</span>
@@ -122,7 +148,7 @@ export default async function LearnLessonPage({ params }: LearnLessonPageProps) 
             <span>{currentLesson.duration} Menit</span>
           </div>
           <h1 className="text-4xl font-black tracking-tight lg:text-5xl">
-            {currentLesson.titleId}
+            {locale === 'id' ? currentLesson.titleId : currentLesson.titleEn}
           </h1>
         </header>
 
@@ -131,9 +157,9 @@ export default async function LearnLessonPage({ params }: LearnLessonPageProps) 
             <VideoPlayer url={currentLesson.videoUrl} />
           ) : null}
 
-          {currentLesson.type === "article" && currentLesson.content ? (
+          {currentLesson.type === "article" && displayContent ? (
             <div className="mt-4">
-              <ArticleRenderer markdown={currentLesson.content} />
+              <ArticleRenderer markdown={displayContent} />
             </div>
           ) : null}
 

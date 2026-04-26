@@ -34,7 +34,7 @@ export async function ArticleRenderer({ markdown }: ArticleRendererProps) {
         [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:space-y-2 [&_ol]:mb-6
         [&_li]:pl-2
         [&_blockquote]:border-l-4 [&_blockquote]:border-primary [&_blockquote]:pl-6 [&_blockquote]:italic [&_blockquote]:text-muted-foreground [&_blockquote]:my-6
-        [&_img]:rounded-3xl [&_img]:border [&_img]:my-8 [&_img]:shadow-2xl"
+        [&_img]:rounded-2xl [&_img]:border [&_img]:my-8 [&_img]:shadow-2xl"
       dangerouslySetInnerHTML={{ __html: rendered }}
     />
   );

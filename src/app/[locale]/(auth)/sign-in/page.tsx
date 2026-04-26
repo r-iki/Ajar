@@ -33,8 +33,16 @@ function SignInForm() {
 
     if (data) {
       toast.success("Selamat datang kembali!");
-      // Honour the ?next= redirect param sent by middleware, fallback to /dashboard
-      const next = searchParams.get("next") ?? "/dashboard";
+      
+      let defaultRoute = "/dashboard";
+      if (data.user.role === "admin") {
+        defaultRoute = "/overview";
+      } else if (data.user.role === "instructor") {
+        defaultRoute = "/studio/courses";
+      }
+
+      // Honour the ?next= redirect param sent by middleware, fallback to role-based route
+      const next = searchParams.get("next") ?? defaultRoute;
       router.push(next as any);
       router.refresh();
     }

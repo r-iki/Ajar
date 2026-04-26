@@ -149,3 +149,90 @@
 ::-webkit-scrollbar-thumb {
   @apply bg-muted-foreground/20 rounded-full border-4 border-solid border-background hover:bg-muted-foreground/40;
 }
+
+/* Modern Markdown Editor Overrides */
+.modern-editor-wrapper {
+  @apply relative min-h-[500px] w-full transition-all duration-300;
+}
+
+.w-md-editor {
+  @apply !bg-zinc-950 !border-none !shadow-none !rounded-3xl !overflow-hidden;
+  min-height: 500px !important;
+}
+
+.w-md-editor-toolbar {
+  @apply !bg-zinc-900/80 !backdrop-blur-xl !border-b !border-white/5 !px-4 !py-2;
+}
+
+.w-md-editor-toolbar li button {
+  @apply !text-zinc-400 hover:!text-white hover:!bg-white/10 !rounded-lg !transition-all;
+}
+
+.w-md-editor-toolbar li.active button {
+  @apply !text-white !bg-white/10;
+}
+
+.w-md-editor-content {
+  @apply !bg-transparent;
+}
+
+.w-md-editor-text {
+  @apply !bg-transparent !text-zinc-100 !font-mono !p-6;
+}
+
+.w-md-editor-preview {
+  @apply !bg-zinc-900/30 !border-l !border-white/5;
+}
+
+/* Fix for the markdown content itself inside preview */
+.wmde-markdown {
+  @apply !bg-transparent !text-zinc-200 !p-6;
+}
+
+/* Fix for code blocks and other elements that might have white background */
+.wmde-markdown pre, 
+.wmde-markdown code {
+  @apply !bg-zinc-800 !text-zinc-100 !border-zinc-700;
+}
+
+/* Fullscreen mode fixes */
+.w-md-editor-fullscreen {
+  @apply !z-[9999] !fixed !inset-0 !bg-zinc-950 !p-6;
+}
+
+.w-md-editor-fullscreen .w-md-editor-content {
+  @apply !bg-zinc-950;
+}
+
+.w-md-editor-fullscreen .w-md-editor-preview {
+  @apply !bg-zinc-950;
+}
+
+/* Light mode overrides if needed */
+:root:not(.dark) .w-md-editor {
+  @apply !bg-white !border-slate-200;
+}
+:root:not(.dark) .w-md-editor-toolbar {
+  @apply !bg-slate-50 !border-slate-200;
+}
+:root:not(.dark) .w-md-editor-text {
+  @apply !text-slate-900;
+}
+:root:not(.dark) .wmde-markdown {
+  @apply !text-slate-800;
+}
+
+/* Force parent reset when editor is fullscreen to avoid stacking context issues */
+body:has(.w-md-editor-fullscreen) {
+  overflow: hidden !important;
+}
+
+/* This resets any parent that might trap the fixed element */
+section:has(.w-md-editor-fullscreen),
+div:has(.w-md-editor-fullscreen) {
+  backdrop-filter: none !important;
+  filter: none !important;
+  transform: none !important;
+  perspective: none !important;
+  contain: none !important;
+}

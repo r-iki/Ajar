@@ -16,8 +16,36 @@ export const auth = betterAuth({
     schema,
     usePlural: true,
   }),
+  user: {
+    additionalFields: {
+      role: {
+        type: "string",
+        defaultValue: "student",
+      },
+      xp: {
+        type: "number",
+        defaultValue: 0,
+      },
+      locale: {
+        type: "string",
+        defaultValue: "id",
+      },
+    },
+  },
   emailAndPassword: {
     enabled: true,
+  },
+  emailVerification: {
+    sendOnSignUp: true,
+    autoSignInAfterVerification: true,
+    sendVerificationEmail: async ({ user, url }) => {
+      const { sendVerificationEmail } = await import("@/lib/email/resend");
+      await sendVerificationEmail({
+        to: user.email,
+        url,
+        name: user.name,
+      });
+    },
   },
   socialProviders: hasGoogleOAuth
     ? {

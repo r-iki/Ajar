@@ -11,9 +11,26 @@ import { eq, and } from "drizzle-orm";
 import { PlayCircle, CheckCircle } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 
+import { Metadata } from "next";
+
 type CourseDetailProps = {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; locale: string }>;
 };
+
+export async function generateMetadata({ params }: CourseDetailProps): Promise<Metadata> {
+  const { slug, locale } = await params;
+  const course = await getCourseBySlug(slug);
+
+  if (!course) return { title: "Course Not Found" };
+
+  const title = locale === "id" ? course.titleId : course.titleEn;
+  const description = course.metaDescription || (locale === "id" ? course.descId : course.descEn);
+
+  return {
+    title: `${title} | Ajar`,
+    description,
+  };
+}
 
 export default async function CourseDetailPage({ params }: CourseDetailProps) {
   const { slug } = await params;
@@ -59,34 +76,38 @@ export default async function CourseDetailPage({ params }: CourseDetailProps) {
 
       <div className="grid gap-8 lg:grid-cols-[1fr_350px]">
         <div className="space-y-12">
-          <div className="aspect-video overflow-hidden rounded-3xl border bg-muted/40 shadow-2xl">
-            {course.thumbnail ? (
-              <img src={course.thumbnail} alt={course.titleId} className="h-full w-full object-cover" />
-            ) : (
-              <div className="flex h-full flex-col items-center justify-center gap-4 text-muted-foreground/30 text-center p-10">
-                <div className="size-20 rounded-full border-4 border-dashed border-current flex items-center justify-center">
-                  <PlayCircle className="size-10" />
-                </div>
-                <div>
-                  <span className="block font-bold text-lg text-muted-foreground/50">Preview Video Belum Tersedia</span>
-                  <span className="text-sm">Video intro sedang dalam proses produksi</span>
+          <div className="aspect-video overflow-hidden rounded-2xl border bg-muted/40 shadow-2xl relative group">
+            <img 
+              src={course.thumbnail || "/images/course-placeholder.png"} 
+              alt={course.titleId} 
+              className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" 
+            />
+            {!course.thumbnail && (
+              <div className="absolute inset-0 bg-black/20 backdrop-blur-[2px] flex items-center justify-center">
+                <div className="text-center p-6 bg-black/40 backdrop-blur-xl rounded-2xl border border-white/10 shadow-2xl animate-in zoom-in duration-500">
+                   <PlayCircle className="size-12 text-white/80 mx-auto mb-3" />
+                   <p className="text-sm font-black uppercase tracking-widest text-white/90">Preview Coming Soon</p>
                 </div>
               </div>
             )}
           </div>
           
-          <article className="prose prose-invert max-w-none rounded-3xl border glass p-8 shadow-sm">
+          <article className="prose prose-invert max-w-none rounded-2xl border glass p-8 shadow-sm">
             <h2 className="text-2xl font-bold">Tentang Kursus Ini</h2>
             <div className="mt-4 leading-relaxed text-muted-foreground">
               {course.descId}
             </div>
           </article>
 
-          <Curriculum modules={course.modules as any} />
+          <Curriculum 
+            modules={course.modules as any} 
+            isEnrolled={isEnrolled} 
+            courseSlug={course.slug} 
+          />
         </div>
 
-        <aside className="sticky top-24 h-fit space-y-6">
-          <div className="rounded-3xl border glass p-6 shadow-xl">
+        <aside id="enroll-section" className="sticky top-24 h-fit space-y-6">
+          <div className="rounded-2xl border glass p-6 shadow-xl">
             <div className="mb-6 space-y-1">
               <p className="text-sm font-medium text-muted-foreground">Harga Spesial</p>
               <p className="text-3xl font-black text-primary">

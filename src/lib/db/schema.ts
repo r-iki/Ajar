@@ -16,6 +16,7 @@ export const courseStatusEnum = pgEnum("course_status", ["draft", "published", "
 export const lessonTypeEnum = pgEnum("lesson_type", ["video", "article", "quiz"]);
 export const paymentGatewayEnum = pgEnum("payment_gateway", ["stripe", "midtrans"]);
 export const paymentStatusEnum = pgEnum("payment_status", ["pending", "paid", "failed", "refunded"]);
+export const enrollmentTypeEnum = pgEnum("enrollment_type", ["public", "manual"]);
 
 // Better Auth core tables in plural form.
 export const users = pgTable("users", {
@@ -90,6 +91,8 @@ export const courses = pgTable("courses", {
   currency: text("currency").notNull().default("IDR"),
   authorId: text("author_id").notNull().references(() => users.id, { onDelete: "cascade" }),
   categoryId: text("category_id").references(() => categories.id, { onDelete: "set null" }),
+  enrollmentType: enrollmentTypeEnum("enrollment_type").notNull().default("public"),
+  metaDescription: text("meta_description"),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
 
@@ -116,7 +119,8 @@ export const lessons = pgTable("lessons", {
   titleEn: text("title_en").notNull(),
   titleId: text("title_id").notNull(),
   type: lessonTypeEnum("type").notNull(),
-  content: text("content"),
+  contentEn: text("content_en"),
+  contentId: text("content_id"),
   videoUrl: text("video_url"),
   duration: integer("duration").notNull().default(0),
   order: integer("order").notNull(),
@@ -280,4 +284,24 @@ export const quizQuestionsRelations = relations(quizQuestions, ({ one, many }) =
 
 export const quizChoicesRelations = relations(quizChoices, ({ one }) => ({
   question: one(quizQuestions, { fields: [quizChoices.questionId], references: [quizQuestions.id] }),
+}));
+
+export const usersRelations = relations(users, ({ many }) => ({
+  enrollments: many(enrollments),
+  lessonProgress: many(lessonProgress),
+  xpTransactions: many(xpTransactions),
+}));
+
+export const enrollmentsRelations = relations(enrollments, ({ one }) => ({
+  user: one(users, { fields: [enrollments.userId], references: [users.id] }),
+  course: one(courses, { fields: [enrollments.courseId], references: [courses.id] }),
+}));
+
+export const lessonProgressRelations = relations(lessonProgress, ({ one }) => ({
+  user: one(users, { fields: [lessonProgress.userId], references: [users.id] }),
+  lesson: one(lessons, { fields: [lessonProgress.lessonId], references: [lessons.id] }),
+}));
+
+export const categoriesRelations = relations(categories, ({ many }) => ({
+  courses: many(courses),
 }));
