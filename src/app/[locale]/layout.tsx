@@ -3,6 +3,7 @@ import { getMessages, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { Geist, Geist_Mono } from "next/font/google";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/next";
 
 import { cookies } from "next/headers";
 
@@ -61,6 +62,7 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
           </NextIntlClientProvider>
         </Providers>
         <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   );
