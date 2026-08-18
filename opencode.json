@@ -1,0 +1,5 @@
+{
+  "$schema": "https://opencode.dev/schema.json",
+  "plugin": ["@dietrichgebert/ponytail"],
+  "instructions": ["AGENTS.md"]
+}

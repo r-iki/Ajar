@@ -1,0 +1,259 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-sans);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.62 0.21 43.2);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.62 0.21 43.2);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --radius: 0.625rem;
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.62 0.21 43.2);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.62 0.21 43.2);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.65 0.21 43.2);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.65 0.21 43.2);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.65 0.21 43.2);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.65 0.21 43.2);
+}
+
+@layer utilities {
+  .glass {
+    @apply bg-background/60 backdrop-blur-md border border-border/50;
+  }
+  .glass-dark {
+    @apply bg-background/40 backdrop-blur-xl border border-white/10;
+  }
+  .hero-grid-bg {
+    @apply absolute inset-0 -z-10 h-full w-full bg-background overflow-hidden;
+    background-image: 
+      radial-gradient(circle at 15% 20%, oklch(0.62 0.21 43.2 / 8%), transparent 45%),
+      radial-gradient(circle at 85% 80%, oklch(0.55 0.18 250 / 6%), transparent 50%);
+  }
+  .dark .hero-grid-bg {
+    background-image: 
+      radial-gradient(circle at 15% 20%, oklch(0.65 0.21 43.2 / 12%), transparent 45%),
+      radial-gradient(circle at 85% 80%, oklch(0.55 0.18 250 / 10%), transparent 50%);
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50 transition-colors duration-200;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+  html {
+    @apply font-sans scroll-smooth;
+  }
+}
+
+/* Custom scrollbar for premium feel */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-muted-foreground/20 rounded-full border-4 border-solid border-background hover:bg-muted-foreground/40;
+}
+
+/* Modern Markdown Editor Overrides */
+.modern-editor-wrapper {
+  @apply relative min-h-[500px] w-full transition-all duration-300;
+}
+
+.w-md-editor {
+  @apply !bg-zinc-950 !border-none !shadow-none !rounded-3xl !overflow-hidden;
+  min-height: 500px !important;
+}
+
+.w-md-editor-toolbar {
+  @apply !bg-zinc-900/80 !backdrop-blur-xl !border-b !border-white/5 !px-4 !py-2;
+}
+
+.w-md-editor-toolbar li button {
+  @apply !text-zinc-400 hover:!text-white hover:!bg-white/10 !rounded-lg !transition-all;
+}
+
+.w-md-editor-toolbar li.active button {
+  @apply !text-white !bg-white/10;
+}
+
+.w-md-editor-content {
+  @apply !bg-transparent;
+}
+
+.w-md-editor-text {
+  @apply !bg-transparent !text-zinc-100 !font-mono !p-6;
+}
+
+.w-md-editor-preview {
+  @apply !bg-zinc-900/30 !border-l !border-white/5;
+}
+
+/* Fix for the markdown content itself inside preview */
+.wmde-markdown {
+  @apply !bg-transparent !text-zinc-200 !p-6;
+}
+
+/* Fix for code blocks and other elements that might have white background */
+.wmde-markdown pre, 
+.wmde-markdown code {
+  @apply !bg-zinc-800 !text-zinc-100 !border-zinc-700;
+}
+
+/* Fullscreen mode fixes */
+.w-md-editor-fullscreen {
+  @apply !z-[9999] !fixed !inset-0 !bg-zinc-950 !p-6;
+}
+
+.w-md-editor-fullscreen .w-md-editor-content {
+  @apply !bg-zinc-950;
+}
+
+.w-md-editor-fullscreen .w-md-editor-preview {
+  @apply !bg-zinc-950;
+}
+
+/* Light mode overrides if needed */
+:root:not(.dark) .w-md-editor {
+  @apply !bg-white !border-slate-200;
+}
+:root:not(.dark) .w-md-editor-toolbar {
+  @apply !bg-slate-50 !border-slate-200;
+}
+:root:not(.dark) .w-md-editor-text {
+  @apply !text-slate-900;
+}
+:root:not(.dark) .wmde-markdown {
+  @apply !text-slate-800;
+}
+
+/* Force parent reset when editor is fullscreen to avoid stacking context issues */
+body:has(.w-md-editor-fullscreen) {
+  overflow: hidden !important;
+}
+
+/* This resets any parent that might trap the fixed element */
+section:has(.w-md-editor-fullscreen),
+div:has(.w-md-editor-fullscreen) {
+  backdrop-filter: none !important;
+  filter: none !important;
+  transform: none !important;
+  perspective: none !important;
+  contain: none !important;
+}
